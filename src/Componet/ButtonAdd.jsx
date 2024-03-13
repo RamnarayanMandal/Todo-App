@@ -8,12 +8,12 @@ const ButtonAdd = (props) => {
   return (
     <>
       <div className={Style.buttonContainer}>
-        <input type="text" className="form-control me-4" placeholder="Enter your Todo Name" aria-label="Username" aria-describedby="basic-addon1" 
-        onChange={props.handleOnchange}/>
-        <input type="date" className="form-control me-4" 
-        onChange={props.handleOnchange}/>
+        <input type="text" value={props.todoName} className={`${Style.input} ` } placeholder="Enter your Todo Name" aria-label="Username" aria-describedby="basic-addon1" 
+        onChange={props.handleOnChangeName }/>
+        <input type="date" value={props.todoDate} className={`${Style.input}  ` } 
+        onChange={props.handleOnChangeDate}/>
         <button className="btn btn-primary"
-        onClick={props.handleonClick}>Add</button>
+        onClick={props.handleOnClick}>Add</button>
       </div>
       
     </>
