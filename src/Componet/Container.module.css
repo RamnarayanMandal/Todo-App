@@ -1,0 +1,14 @@
+.Container{
+    margin-top: 5%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.subContainer{
+   padding: 5%;
+   width: 50%;
+   min-height: 50%;
+   border: 2px solid rgb(0, 0, 0);
+   border-radius: 10px;
+   
+}
