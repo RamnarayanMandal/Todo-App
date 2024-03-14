@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { Container } from "./Container";
 import ButtonAdd from "./ButtonAdd";
@@ -10,37 +10,35 @@ import Sms from "./Sms";
 const HomePage = () => {
   // State for todo items
   const [todoItems, setTodoItems] = useState([]);
-
-  // State for item name and date
-  const [itemName, setItemName] = useState("");
-  const [itemDate, setItemDate] = useState("");
-
-  const handleOnChangeName = (e) => {
-    setItemName(e.target.value);
-  };
-
-  const handleOnChangeDate = (e) => {
-    setItemDate(e.target.value);
-  };
-
+  
+  // Refs for input fields
+  const itemNameRef = useRef();
+  const itemDateRef = useRef();
+  
+  // Function to check if an item already exists
   const exists = (itemName) => {
     return todoItems.some((item) => item.name === itemName);
   };
 
-  const handleOnClick = () => {
-    // Check if itemName is not empty, itemDate is not empty, and itemName does not already exist
-    if (itemName !== "" && itemDate !== "") {
-      if (!exists(itemName)) {
+  const handleOnClick = (event) => {
+    event.preventDefault();
+    
+    // Access current values from refs
+    const newItemName = itemNameRef.current.value;
+    const newItemDate = itemDateRef.current.value;
+
+    if (newItemName !== "" && newItemDate !== "") {
+      if (!exists(newItemName)) {
         const newItem = {
-          name: itemName,
-          date: itemDate,
+          name: newItemName,
+          date: newItemDate,
         };
         // Update todoItems array by appending the new item
         setTodoItems([...todoItems, newItem]);
 
         // Reset input fields
-        setItemName("");
-        setItemDate("");
+        itemNameRef.current.value = "";
+        itemDateRef.current.value = "";
 
         toast.success("Item Added Successfully", {
           position: "top-center",
@@ -63,7 +61,7 @@ const HomePage = () => {
   const handleDelete = (itemName) => {
     const updatedItems = todoItems.filter(item => item.name !== itemName);
     setTodoItems(updatedItems);
-    toast.success("Item Deleted Successfully", {
+    toast.success(`${itemName} Item Deleted Successfully`, {
       position: "top-center",
       theme: "colored",
     });
@@ -75,14 +73,12 @@ const HomePage = () => {
       <Header />
       <Container>
         <ButtonAdd
-          handleOnChangeDate={handleOnChangeDate}
           handleOnClick={handleOnClick}
-          handleOnChangeName={handleOnChangeName}
-          todoName={itemName}
-          todoDate={itemDate}
+          itemNameRef={itemNameRef}
+          itemDateRef={itemDateRef}
         />
         <ToastContainer />
-        {todoItems.length==0&&<Sms/>}
+        {todoItems.length === 0 && <Sms />}
         {/* Pass todoItems and handleDelete as props to DeleteItems component */}
         <DeleteItems items={todoItems} handleDelete={handleDelete} />
       </Container>

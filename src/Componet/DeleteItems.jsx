@@ -1,4 +1,5 @@
 import React from "react";
+import { MdDelete } from "react-icons/md";
 
 const DeleteItems = ({ items, handleDelete }) => {
   return (
@@ -17,7 +18,7 @@ const DeleteItems = ({ items, handleDelete }) => {
                 className="btn btn-danger"
                 onClick={() => handleDelete(item.name)} // Pass name to handleDelete
               >
-                Delete
+               <MdDelete />
               </button>
             </div>
           </div>
